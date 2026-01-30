@@ -343,30 +343,43 @@ function drawBoxes(results){
 }
 
 function updateLog(results){
- results.forEach(r=>{
-  const now=Date.now();
 
-  if(r.reg_no==="Unknown"){
+ results.forEach(r=>{
+
+  const now = Date.now();
+
+  // 🔴 UNKNOWN
+  if(r.reg_no==="Unknown" || r.color==="red"){
    if(lastLogged.u && now-lastLogged.u<5000) return;
    lastLogged.u=now;
    addLog("Unknown Face","Not registered","log-error");
    return;
   }
 
-  if(r.status.includes("Marked")){
+  // 🟢 MARKED
+  if(r.status && r.status.includes("Marked")){
    addLog(r.reg_no,r.status,"log-success");
    return;
   }
 
-  if(r.status.includes("Already")){
+  // 🟠 ALREADY MARKED
+  if(r.status && r.status.includes("Already")){
    addLog(r.reg_no,r.status,"log-warning");
    return;
   }
+
+  // 🟡 WAIT MESSAGE
+  if(r.status && r.status.includes("Wait")){
+   addLog(r.reg_no,r.status,"log-warning");
+   return;
+  }
+
  });
 }
 
 function addLog(a,b,cls){
- if(logList.innerText.includes("No activity"))
+
+ if(logList.children.length===1)
   logList.innerHTML="";
 
  const li=document.createElement("li");
@@ -374,6 +387,7 @@ function addLog(a,b,cls){
  li.innerHTML=`<span>${a}</span><span>${b}</span>`;
  logList.prepend(li);
 }
+
 
 window.onload=startCamera;
 </script>

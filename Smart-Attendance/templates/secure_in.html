@@ -360,7 +360,14 @@ function updateLog(results){
  });
 }
 
-window.onload=startCamera;
+window.onload = () => {
+  console.log("Page loaded");
+
+  // Delay only camera start
+  setTimeout(() => {
+    startCamera();
+  }, 2200); // 2.5 sec delay
+};
 </script>
 
 </body>

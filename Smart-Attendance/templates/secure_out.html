@@ -389,7 +389,17 @@ function addLog(a,b,cls){
 }
 
 
-window.onload=startCamera;
+window.onload = () => {
+
+  // server warmup
+  fetch("/");
+
+  // delay camera start
+  setTimeout(() => {
+    startCamera();
+  }, 2200);
+
+};
 </script>
 
 </body>
